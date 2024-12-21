@@ -38,6 +38,10 @@ dependencies {
     implementation 'redis.clients:jedis:4.3.1'
     //Pool2
     implementation 'org.apache.commons:commons-pool2:2.11.1'
+    // MySQL JDBC Driver
+    implementation 'mysql:mysql-connector-java:8.0.33'
+    // MariaDB JDBC Driver
+    implementation 'org.mariadb.jdbc:mariadb-java-client:3.5.1'
 }
 
 compileKotlin {

@@ -62,17 +62,12 @@ java {
 
 shadowJar {
     dependencies {
-        exclude(dependency("org.bstats:bstats-bukkit"))
-        exclude(dependency("com.zaxxer:HikariCP"))
-        exclude(dependency("redis.clients:jedis"))
-        exclude(dependency("org.apache.commons:commons-pool2"))
+        dependency("org.bstats:bstats-bukkit")
+        dependency("com.zaxxer:HikariCP")
+        dependency("redis.clients:jedis")
+        dependency("org.apache.commons:commons-pool2")
     }
     exclude 'META-INF/versions/11/module-info*'
-    exclude 'me/yic/xconomy/task/RunBaltop.class'
-    exclude 'me/yic/xconomy/adapter/comp/CPlugin.class'
-    exclude 'me/yic/xconomy/adapter/comp/CallAPI.class'
-    exclude 'me/yic/xc_libs/pool2/**'
-    exclude 'me/yic/xc_libs/redis/**'
     relocate 'org.bstats', 'me.yic.xc_libs.bstats'
     relocate 'com.zaxxer', 'me.yic.xc_libs.zaxxer'
     relocate 'redis.clients', 'me.yic.xc_libs.redis'
