@@ -1,0 +1,61 @@
+plugins {
+    id 'java'
+    id 'com.gradleup.shadow' version '9.0.0-beta4'
+}
+
+repositories {
+    mavenCentral()
+    maven {
+        url = 'https://hub.spigotmc.org/nexus/content/repositories/snapshots/'
+    }
+    maven {
+        url = 'https://repo.codemc.org/repository/maven-public'
+    }
+    maven {
+        url = 'https://jitpack.io'
+    }
+    maven {
+        url = 'https://repo.glaremasters.me/repository/towny/'
+    }
+    maven {
+        url = 'https://repo.spongepowered.org/maven'
+    }
+    maven {
+        url = 'https://repo.papermc.io/repository/maven-public/'
+    }
+    maven {
+        url = 'https://oss.sonatype.org/content/repositories/snapshots'
+    }
+    maven {
+        url = 'https://plugins.gradle.org/m2/'
+    }
+}
+
+dependencies {
+    //SpongeAPI 8.0
+    compileOnly 'org.spongepowered:spongeapi:8.0.0'
+    //BStats-Sponge
+    implementation 'org.bstats:bstats-sponge:3.0.2'
+    //XConomy-Core
+    implementation project(':XConomy-Core')
+}
+
+shadowJar {
+    relocate 'org.bstats', 'me.yic.xc_libs.bstats'
+    relocate 'redis.clients', 'me.yic.xc_libs.redis'
+    relocate 'org.apache.commons', 'me.yic.xc_libs.pool2'
+
+    exclude 'META-INF/versions/11/module-info*'
+    exclude 'META-INF/MANIFEST.MF'
+    exclude 'me/yic/xconomy/XConomy.class'
+    exclude 'me/yic/xconomy/adapter/comp/*'
+
+    archiveBaseName = 'XConomy-Sponge8'
+}
+
+processResources {
+    from('../LICENSE') {
+        into 'META-INF'
+    }
+}
+

@@ -1,0 +1,76 @@
+plugins {
+    id 'java'
+    id 'com.gradleup.shadow' version '9.0.0-beta4'
+}
+
+repositories {
+    mavenCentral()
+    maven {
+        url = 'https://hub.spigotmc.org/nexus/content/repositories/snapshots/'
+    }
+    maven {
+        url = 'https://repo.codemc.org/repository/maven-public'
+    }
+    maven {
+        url = 'https://jitpack.io'
+    }
+    maven {
+        url = 'https://repo.extendedclip.com/content/repositories/placeholderapi/'
+    }
+    maven {
+        url = 'https://repo.glaremasters.me/repository/towny/'
+    }
+    maven {
+        url = 'https://repo.spongepowered.org/maven'
+    }
+    maven {
+        url = 'https://repo.papermc.io/repository/maven-public/'
+    }
+    maven {
+        url = 'https://oss.sonatype.org/content/repositories/snapshots'
+    }
+    maven {
+        url = 'https://plugins.gradle.org/m2/'
+    }
+}
+
+dependencies {
+    // Update to a compatible version of Paper API
+    compileOnly 'io.papermc.paper:paper-api:1.21.4-R0.1-SNAPSHOT'
+    //XConomy-Bukkit
+    implementation project(':XConomy-Bukkit')
+    //XConomy-Core
+    implementation project(':XConomy-Core')
+     //Placeholder API
+    compileOnly 'me.clip:placeholderapi:2.11.6'
+}
+
+shadowJar {
+    relocate 'redis.clients', 'me.yic.xc_libs.redis'
+    relocate 'org.apache.commons', 'me.yic.xc_libs.pool2'
+
+    exclude 'META-INF/versions/11/module-info*'
+    exclude 'META-INF/MANIFEST.MF'
+    exclude 'plugin.yml'
+    exclude 'me/yic/xconomy/task/RunBaltop.class'
+    exclude 'me/yic/xconomy/adapter/comp/CPlugin.class'
+    exclude 'me/yic/xconomy/adapter/comp/CallAPI.class'
+    exclude 'me/yic/xc_libs/pool2/**'
+    exclude 'me/yic/xc_libs/redis/**'
+
+    archiveBaseName = 'XConomy-Paper'
+}
+
+processResources {
+    filesMatching('plugin.yml') {
+        expand(project.properties)
+    }
+    from('../LICENSE') {
+        into 'META-INF'
+    }
+}
+
+java {
+    sourceCompatibility = '21'
+    targetCompatibility = '21'
+}

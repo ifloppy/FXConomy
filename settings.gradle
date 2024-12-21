@@ -1,0 +1,43 @@
+pluginManagement {
+    repositories {
+        mavenCentral()
+        gradlePluginPortal()
+    }
+    repositories {
+        mavenCentral()
+        maven {
+            url = 'https://hub.spigotmc.org/nexus/content/repositories/snapshots/'
+        }
+        maven {
+            url = 'https://repo.codemc.org/repository/maven-public'
+        }
+        maven {
+            url = 'https://jitpack.io'
+        }
+        maven {
+            url = 'https://repo.extendedclip.com/content/repositories/placeholderapi/'
+        }
+        maven {
+            url = 'https://repo.glaremasters.me/repository/towny/'
+        }
+        maven {
+            url = 'https://repo.spongepowered.org/maven'
+        }
+        maven {
+            url = 'https://repo.papermc.io/repository/maven-public/'
+        }
+        maven {
+            url = 'https://oss.sonatype.org/content/repositories/snapshots'
+        }
+        maven {
+            url = 'https://plugins.gradle.org/m2/'
+        }
+    }
+}
+
+include 'XConomy-Bukkit'
+include 'XConomy-Sponge7'
+include 'XConomy-Sponge8'
+include 'XConomy-Paper'
+include 'XConomy-Core'
+rootProject.name = 'XConomy' 
