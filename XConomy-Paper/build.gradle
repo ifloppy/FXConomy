@@ -45,32 +45,36 @@ dependencies {
     compileOnly 'me.clip:placeholderapi:2.11.6'
 }
 
-shadowJar {
-    relocate 'redis.clients', 'me.yic.xc_libs.redis'
-    relocate 'org.apache.commons', 'me.yic.xc_libs.pool2'
-
-    exclude 'META-INF/versions/11/module-info*'
-    exclude 'META-INF/MANIFEST.MF'
-    exclude 'plugin.yml'
-    exclude 'me/yic/xconomy/task/RunBaltop.class'
-    exclude 'me/yic/xconomy/adapter/comp/CPlugin.class'
-    exclude 'me/yic/xconomy/adapter/comp/CallAPI.class'
-    exclude 'me/yic/xc_libs/pool2/**'
-    exclude 'me/yic/xc_libs/redis/**'
-
-    archiveBaseName = 'XConomy-Paper'
-}
-
 processResources {
-    filesMatching('plugin.yml') {
-        expand(project.properties)
-    }
-    from('../LICENSE') {
+    from('../') {
+        include 'LICENSE'
         into 'META-INF'
+    }
+    from('src/main/resources') {
+        duplicatesStrategy = DuplicatesStrategy.EXCLUDE
     }
 }
 
 java {
     sourceCompatibility = '21'
     targetCompatibility = '21'
+}
+
+shadowJar {
+    dependencies {
+        exclude(dependency("org.bstats:bstats-bukkit"))
+        exclude(dependency("com.zaxxer:HikariCP"))
+        exclude(dependency("redis.clients:jedis"))
+        exclude(dependency("org.apache.commons:commons-pool2"))
+    }
+    exclude 'META-INF/versions/11/module-info*'
+    exclude 'me/yic/xconomy/task/RunBaltop.class'
+    exclude 'me/yic/xconomy/adapter/comp/CPlugin.class'
+    exclude 'me/yic/xconomy/adapter/comp/CallAPI.class'
+    exclude 'me/yic/xc_libs/pool2/**'
+    exclude 'me/yic/xc_libs/redis/**'
+    relocate 'org.bstats', 'me.yic.xc_libs.bstats'
+    relocate 'com.zaxxer', 'me.yic.xc_libs.zaxxer'
+    relocate 'redis.clients', 'me.yic.xc_libs.redis'
+    relocate 'org.apache.commons', 'me.yic.xc_libs.pool2'
 }

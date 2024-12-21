@@ -53,7 +53,12 @@ compileTestKotlin {
 }
 
 processResources {
-    from('../LICENSE') {
+    from('../') {
+        include 'LICENSE'
         into 'META-INF'
+    }
+    from('src/main/resources') {
+        filter(org.apache.tools.ant.filters.ReplaceTokens) // Enables filtering
+        duplicatesStrategy = DuplicatesStrategy.EXCLUDE // Exclude duplicate files
     }
 }

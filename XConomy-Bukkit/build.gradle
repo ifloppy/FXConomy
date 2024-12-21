@@ -51,12 +51,23 @@ dependencies {
     implementation project(':XConomy-Core')
 }
 
-shadowJar {
-    relocate 'org.bstats', 'me.yic.xc_libs.bstats'
-    relocate 'com.zaxxer', 'me.yic.xc_libs.zaxxer'
-    relocate 'redis.clients', 'me.yic.xc_libs.redis'
-    relocate 'org.apache.commons', 'me.yic.xc_libs.pool2'
+processResources {
+    from('../') {
+        include 'LICENSE'
+        into 'META-INF'
+    }
+    from('src/main/resources') {
+        duplicatesStrategy = DuplicatesStrategy.EXCLUDE
+    }
+}
 
+shadowJar {
+    dependencies {
+        exclude(dependency("org.bstats:bstats-bukkit"))
+        exclude(dependency("com.zaxxer:HikariCP"))
+        exclude(dependency("redis.clients:jedis"))
+        exclude(dependency("org.apache.commons:commons-pool2"))
+    }
     exclude 'META-INF/versions/11/module-info*'
     exclude 'META-INF/MANIFEST.MF'
     exclude 'me/yic/xconomy/XConomy.class'
@@ -64,15 +75,8 @@ shadowJar {
     exclude 'me/yic/xconomy/task/ReceivePerCheck.class'
     exclude 'me/yic/xconomy/adapter/comp/*'
     exclude 'me/yic/xconomy/depend/*'
-
-    archiveBaseName = 'XConomy-Bukkit'
-}
-
-processResources {
-    filesMatching('plugin.yml') {
-        expand(project.properties)
-    }
-    from('../LICENSE') {
-        into 'META-INF'
-    }
+    relocate 'org.bstats', 'me.yic.xc_libs.bstats'
+    relocate 'com.zaxxer', 'me.yic.xc_libs.zaxxer'
+    relocate 'redis.clients', 'me.yic.xc_libs.redis'
+    relocate 'org.apache.commons', 'me.yic.xc_libs.pool2'
 }
