@@ -1,3 +1,33 @@
-XConomy.iml
-.idea
+# Gradle files
+.gradle/
+build/
+out/
+*.jar
+*.war
+*.ear
+
+# IDE
+.idea/
+.vscode/
+*.iml
+
+# Built
 target
+XConomy-Sponge7/src/main/java/me/yic/xconomy/utils/PluginINFO.java
+
+# OS generated files
+.DS_Store
+Thumbs.db
+
+# Logs
+*.log
+
+# Temporary files
+*.tmp
+*.temp
+
+# License files
+LICENSE
+
+# Other
+*.class
