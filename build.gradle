@@ -14,8 +14,6 @@ subprojects {
     targetCompatibility = 1.8
 
 processResources {
-        filesMatching('plugin.yml') {
-            expand(project: project)
-        }
+        expand(project: project)
     }
 }
