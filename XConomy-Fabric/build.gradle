@@ -1,6 +1,7 @@
 plugins {
 	id 'fabric-loom' version '1.9-SNAPSHOT'
 	id 'maven-publish'
+    id("com.gradleup.shadow") version "9.0.0-beta4"
 }
 
 version = project.version
@@ -16,6 +17,10 @@ repositories {
 	// Loom adds the essential maven repositories to download Minecraft and libraries from automatically.
 	// See https://docs.gradle.org/current/userguide/declaring_repositories.html
 	// for more information about repositories.
+    mavenCentral()
+    maven {
+        url = 'https://jitpack.io'
+    }
 }
 
 dependencies {
@@ -26,6 +31,7 @@ dependencies {
 
 	// Fabric API. This is technically optional, but you probably want it anyway.
 	modImplementation "net.fabricmc.fabric-api:fabric-api:${project.fabric_version}"
+    implementation project(':XConomy-Core')
 	
 }
 
@@ -35,6 +41,10 @@ processResources {
 	filesMatching("fabric.mod.json") {
 		expand "version": project.version
 	}
+    from('../') {
+        include 'LICENSE'
+        into 'META-INF'
+    }
 }
 
 tasks.withType(JavaCompile).configureEach {
@@ -73,4 +83,20 @@ publishing {
 		// The repositories here will be used for publishing your artifact, not for
 		// retrieving dependencies.
 	}
+}
+
+shadowJar {
+    dependencies {
+        dependency("org.bstats:bstats-bukkit")
+        dependency("com.zaxxer:HikariCP")
+        dependency("redis.clients:jedis")
+        dependency("org.apache.commons:commons-pool2")
+    }
+    exclude 'META-INF/versions/11/module-info*'
+    exclude 'META-INF/MANIFEST.MF'
+    relocate 'org.bstats', 'me.yic.xc_libs.bstats'
+    relocate 'com.zaxxer', 'me.yic.xc_libs.zaxxer'
+    relocate 'redis.clients', 'me.yic.xc_libs.redis'
+    relocate 'org.apache.commons', 'me.yic.xc_libs.pool2'
+    relocate 'me.yic.xconomy', 'me.yic.xconomy.fabric'
 }
