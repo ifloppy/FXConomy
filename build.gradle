@@ -14,7 +14,10 @@ subprojects {
     targetCompatibility = 1.8
 
 processResources {
-        filesMatching('plugin.yml') {
+        filesMatching('*.yml') {
+            expand(project: project)
+        }
+        filesMatching('*.json') {
             expand(project: project)
         }
     }
