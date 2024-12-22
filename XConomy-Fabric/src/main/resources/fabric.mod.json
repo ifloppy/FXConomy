@@ -1,0 +1,31 @@
+{
+	"schemaVersion": 1,
+	"id": "xconomy-fabric",
+	"version": "${project.version}",
+	"name": "XConomy-Fabric",
+	"description": "XConomy for FabricMC.",
+	"authors": [
+		"Me!"
+	],
+	"contact": {
+		"homepage": "https://fabricmc.net/",
+		"sources": "https://github.com/FabricMC/fabric-example-mod"
+	},
+	"license": "GPL-3.0",
+	"icon": "assets/xconomy-fabric/icon.png",
+	"environment": "*",
+	"entrypoints": {
+		"main": [
+			"me.yic.xconomy.xconomy.XConomyFabric"
+		]
+	},
+	"depends": {
+		"fabricloader": ">=0.16.9",
+		"minecraft": "~1.21.1",
+		"java": ">=21",
+		"fabric-api": "*"
+	},
+	"suggests": {
+		"another-mod": "*"
+	}
+}

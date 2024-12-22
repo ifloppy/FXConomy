@@ -2,6 +2,10 @@ pluginManagement {
     repositories {
         mavenCentral()
         gradlePluginPortal()
+        maven {
+			name = 'Fabric'
+			url = 'https://maven.fabricmc.net/'
+		}
     }
     repositories {
         mavenCentral()
@@ -40,4 +44,5 @@ include 'XConomy-Sponge7'
 include 'XConomy-Sponge8'
 include 'XConomy-Paper'
 include 'XConomy-Core'
+include 'XConomy-Fabric'
 rootProject.name = 'XConomy' 
