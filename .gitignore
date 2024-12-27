@@ -15,6 +15,9 @@ out/
 target
 XConomy-Sponge7/src/main/java/me/yic/xconomy/utils/PluginINFO.java
 
+# Debug
+run/
+
 # OS generated files
 .DS_Store
 Thumbs.db
