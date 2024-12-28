@@ -27,7 +27,7 @@ public class XConomy{
     public static String version;
     public static String PVersion;
 
-    private static XConomy instance;
+    protected static XConomy instance;
 
     public static String syncversion = SyncInfo.syncversion;
 

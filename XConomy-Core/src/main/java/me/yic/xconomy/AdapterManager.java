@@ -28,7 +28,7 @@ public class AdapterManager {
     public static boolean foundvaultpe = false;
     public static boolean foundvaultOfflinePermManager = false;
 
-    public final static CPlugin PLUGIN = new CPlugin();
+    public static CPlugin PLUGIN = new CPlugin();
 
     //public static ScheduledExecutorService ScheduledThreadPool;
     //public static ExecutorService FixedThreadPool;
