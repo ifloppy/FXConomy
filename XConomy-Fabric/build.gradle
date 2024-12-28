@@ -1,4 +1,5 @@
 plugins {
+	id 'java'
 	id 'fabric-loom' version '1.9-SNAPSHOT'
 	id 'com.gradleup.shadow' version '9.0.0-beta4'
 }
@@ -12,6 +13,9 @@ repositories {
 		name = 'Fabric'
 		url = 'https://maven.fabricmc.net/'
 	}
+	maven {
+		url = "https://maven.nucleoid.xyz/"
+	}
 }
 
 dependencies {
@@ -21,12 +25,18 @@ dependencies {
 	modImplementation "net.fabricmc.fabric-api:fabric-api:${project.fabric_version}"
 
 	// Include XConomy-Core
-	include(project(':XConomy-Core'))
-	implementation(project(':XConomy-Core'))
+	api project(':XConomy-Core')
+	include project(':XConomy-Core')
 
 	// Add SnakeYAML dependency
 	implementation 'org.yaml:snakeyaml:2.2'
 	include 'org.yaml:snakeyaml:2.2'
+
+	// Add Fabric Permissions API
+	include(modImplementation('me.lucko:fabric-permissions-api:0.3.1'))
+
+	// Add Common Economy API
+	modImplementation include("eu.pb4:common-economy-api:1.1.1")
 }
 
 processResources {
@@ -64,4 +74,12 @@ shadowJar {
 	relocate 'redis.clients', 'me.yic.xc_libs.redis'
 	relocate 'org.apache.commons', 'me.yic.xc_libs.pool2'
 	relocate 'org.yaml.snakeyaml', 'me.yic.xc_libs.snakeyaml'
+	
+	minimize()
+}
+
+remapJar {
+	dependsOn(shadowJar)
+	mustRunAfter(shadowJar)
+	inputFile = file(shadowJar.archivePath)
 }
