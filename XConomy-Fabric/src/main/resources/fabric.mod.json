@@ -1,31 +1,30 @@
 {
 	"schemaVersion": 1,
-	"id": "xconomy-fabric",
+	"id": "xconomy",
 	"version": "${project.version}",
-	"name": "XConomy-Fabric",
-	"description": "XConomy for FabricMC.",
+	"name": "XConomy",
+	"description": "A powerful economy plugin for Minecraft servers",
 	"authors": [
 		"iruanp_com"
 	],
 	"contact": {
-		"homepage": "https://fabricmc.net/",
-		"sources": "https://github.com/FabricMC/fabric-example-mod"
+		"homepage": "https://github.com/YiC200333/XConomy",
+		"issues": "https://github.com/YiC200333/XConomy/issues"
 	},
 	"license": "GPL-3.0",
-	"icon": "assets/xconomy-fabric/icon.png",
-	"environment": "*",
+	"icon": "assets/xconomy/icon.png",
+	"environment": "server",
 	"entrypoints": {
 		"main": [
-			"me.yic.xconomy.xconomy.XConomyFabric"
+			"me.yic.xconomy.XConomyFabric"
 		]
 	},
 	"depends": {
-		"fabricloader": ">=0.16.9",
-		"minecraft": "~1.21.1",
-		"java": ">=21",
-		"fabric-api": "*"
-	},
-	"suggests": {
-		"another-mod": "*"
+		"fabricloader": ">=${project.loader_version}",
+		"fabric": "*",
+		"minecraft": ">=${project.minecraft_version}",
+		"java": ">=17",
+		"fabric-permissions-api-v0": "*",
+		"common-economy-api": ">=1.1.1"
 	}
 }
