@@ -14,10 +14,7 @@ subprojects {
     targetCompatibility = JavaVersion.VERSION_17
 
 processResources {
-        filesMatching('*.yml') {
-            expand(project: project)
-        }
-        filesMatching('*.json') {
+        filesMatching(['plugin.yml', 'sponge_plugin.json', 'fabric.mod.json']) {
             expand(project: project)
         }
     }
