@@ -1,7 +1,6 @@
 package me.yic.xconomy;
 
 import me.yic.xconomy.adapter.FabricAdapter;
-import me.yic.xconomy.adapter.FabricConfig;
 import me.yic.xconomy.adapter.comp.CConfig;
 import me.yic.xconomy.commands.CommandManager;
 import me.yic.xconomy.info.DefaultConfig;
@@ -14,6 +13,11 @@ import net.fabricmc.fabric.api.event.lifecycle.v1.ServerLifecycleEvents;
 import net.fabricmc.fabric.api.networking.v1.ServerPlayConnectionEvents;
 import net.fabricmc.loader.api.FabricLoader;
 import net.minecraft.server.MinecraftServer;
+
+import java.io.File;
+import java.io.IOException;
+import java.nio.file.Files;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -25,6 +29,7 @@ public class XConomyFabric extends XConomy implements ModInitializer {
 
     public XConomyFabric() {
         instance = this;
+        version = "Fabric";
     }
 
     @Override
@@ -40,8 +45,8 @@ public class XConomyFabric extends XConomy implements ModInitializer {
             AdapterManager.PLUGIN = adapter;
 
             // Load configuration using Core project's system
-            DefaultConfig.config = new FabricConfig(adapter.getConfigFile("config.yml"));
-            DataBaseConfig.config = new FabricConfig(adapter.getConfigFile("database.yml"));
+            DefaultConfig.config = new CConfig(adapter.getConfigFile("config.yml"));
+            DataBaseConfig.config = new CConfig(adapter.getConfigFile("database.yml"));
 
             XConomyLoad.LoadConfig();
 
@@ -51,6 +56,9 @@ public class XConomyFabric extends XConomy implements ModInitializer {
                 LOGGER.error("==================================================");
                 return;
             }
+
+            // Initialize database tables
+            me.yic.xconomy.data.sql.SQL.createTable();
 
             // Initialize server reference and complete initialization
             ServerLifecycleEvents.SERVER_STARTING.register(server -> {
@@ -105,6 +113,24 @@ public class XConomyFabric extends XConomy implements ModInitializer {
         } else {
             LOGGER.info(mess);
         }
+    }
+
+    @Override
+    public File getDataFolder() {
+        File dataFolder = new File(FabricLoader.getInstance().getGameDir().toFile(), "config/xconomy");
+        if (!dataFolder.exists()) {
+            dataFolder.mkdirs();
+        }
+        return dataFolder;
+    }
+
+    @Override
+    public File getPDataFolder() {
+        File dataFolder = new File(FabricLoader.getInstance().getGameDir().toFile(), "config/xconomy/playerdata");
+        if (!dataFolder.exists()) {
+            dataFolder.mkdirs();
+        }
+        return dataFolder;
     }
 
     public Logger getLogger() {

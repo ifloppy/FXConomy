@@ -1,41 +1,40 @@
-package me.yic.xconomy.adapter;
+package me.yic.xconomy.adapter.comp;
 
-import me.yic.xconomy.adapter.comp.CConfig;
-import net.fabricmc.loader.api.FabricLoader;
+import me.yic.xconomy.adapter.iConfig;
+import org.yaml.snakeyaml.DumperOptions;
 import org.yaml.snakeyaml.Yaml;
 
 import java.io.*;
 import java.math.BigDecimal;
 import java.net.URL;
 import java.nio.charset.StandardCharsets;
-import java.nio.file.Files;
-import java.nio.file.Path;
 import java.util.*;
 
-public class FabricConfig extends CConfig {
+@SuppressWarnings("unused")
+public class CConfig implements iConfig {
     private final Map<String, Object> config;
     private final File configFile;
 
-    public FabricConfig(File file) {
-        super(file);
+    public CConfig(File file) {
         this.configFile = file;
-        this.config = loadConfig(file);
+        Map<String, Object> loadedConfig = loadConfig(file);
+        this.config = loadedConfig != null ? loadedConfig : new LinkedHashMap<>();
     }
 
-    public FabricConfig(URL url) {
-        super(url);
+    public CConfig(URL url) {
         this.configFile = null;
-        this.config = loadConfigFromURL(url);
+        Map<String, Object> loadedConfig = loadConfigFromURL(url);
+        this.config = loadedConfig != null ? loadedConfig : new LinkedHashMap<>();
     }
 
-    public FabricConfig(String path, String subpath) {
-        super(path, subpath);
+    public CConfig(String path, String subpath) {
         this.configFile = null;
         URL url = getClass().getResource(path + subpath);
         if (url == null) {
             url = getClass().getResource(path + "/english.yml");
         }
-        this.config = url != null ? loadConfigFromURL(url) : new HashMap<>();
+        Map<String, Object> loadedConfig = url != null ? loadConfigFromURL(url) : new LinkedHashMap<>();
+        this.config = loadedConfig != null ? loadedConfig : new LinkedHashMap<>();
     }
 
     @Override
@@ -59,12 +58,17 @@ public class FabricConfig extends CConfig {
     }
 
     @Override
-    public void save() throws IOException {
+    public void save() throws Exception {
         if (configFile != null) {
-            Yaml yaml = new Yaml();
+            DumperOptions options = new DumperOptions();
+            options.setDefaultFlowStyle(DumperOptions.FlowStyle.BLOCK);
+            options.setPrettyFlow(true);
+            Yaml yaml = new Yaml(options);
             try (Writer writer = new OutputStreamWriter(new FileOutputStream(configFile), StandardCharsets.UTF_8)) {
                 yaml.dump(config, writer);
             }
+        } else {
+            throw new Exception("The file is null");
         }
     }
 
@@ -164,28 +168,39 @@ public class FabricConfig extends CConfig {
 
     private Map<String, Object> loadConfig(File file) {
         if (!file.exists()) {
-            return new HashMap<>();
+            return new LinkedHashMap<>();
         }
         try {
-            Yaml yaml = new Yaml();
+            DumperOptions options = new DumperOptions();
+            options.setDefaultFlowStyle(DumperOptions.FlowStyle.BLOCK);
+            options.setPrettyFlow(true);
+            Yaml yaml = new Yaml(options);
             try (InputStream inputStream = new FileInputStream(file)) {
-                return yaml.load(inputStream);
+                Map<String, Object> result = yaml.load(inputStream);
+                return result != null ? result : new LinkedHashMap<>();
             }
         } catch (IOException e) {
             e.printStackTrace();
-            return new HashMap<>();
+            return new LinkedHashMap<>();
         }
     }
 
     private Map<String, Object> loadConfigFromURL(URL url) {
+        if (url == null) {
+            return new LinkedHashMap<>();
+        }
         try {
-            Yaml yaml = new Yaml();
+            DumperOptions options = new DumperOptions();
+            options.setDefaultFlowStyle(DumperOptions.FlowStyle.BLOCK);
+            options.setPrettyFlow(true);
+            Yaml yaml = new Yaml(options);
             try (InputStream inputStream = url.openStream()) {
-                return yaml.load(inputStream);
+                Map<String, Object> result = yaml.load(inputStream);
+                return result != null ? result : new LinkedHashMap<>();
             }
         } catch (IOException e) {
             e.printStackTrace();
-            return new HashMap<>();
+            return new LinkedHashMap<>();
         }
     }
 
@@ -217,6 +232,10 @@ public class FabricConfig extends CConfig {
             current = (Map<String, Object>) existing;
         }
         
-        current.put(parts[parts.length - 1], value);
+        if (value == null) {
+            current.remove(parts[parts.length - 1]);
+        } else {
+            current.put(parts[parts.length - 1], value);
+        }
     }
 } 
